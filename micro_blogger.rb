@@ -7,6 +7,9 @@ class MicroBlogger
   def initialize
     puts "Initializing.."
     @client = JumpstartAuth.twitter
+    Bitly.use_api_version_3
+    bitly = Bitly.new('hungryacademy', 'R_430e9f62250186d2612cca76eee2dbc6')
+    
   end
 
   def tweet message
@@ -58,8 +61,6 @@ class MicroBlogger
   end
 
   def shorten original_url
-    Bitly.use_api_version_3
-    bitly = Bitly.new('hungryacademy', 'R_430e9f62250186d2612cca76eee2dbc6')
     puts "Shortening this URL: #{ original_url }"
     tiny_url = bitly.shorten(original_url).short_url
     puts "This is now your tiny url #{ tiny_url }"
