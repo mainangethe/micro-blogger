@@ -41,7 +41,20 @@ class MicroBlogger
     end
   end
 
-
+  def everyones_last_tweet
+    friends = @client.friends
+    friends.each do |friend|
+      # find each friend's last message
+      last_message = friend.status.source
+      # print each friend's screen name
+      timestamp = friend.status.created_at
+      timestamp.strftime("%A, %b %d")
+      puts "At #{ timestamp.strftime("%A, %b %d") }, #{ friend } said..."
+      # print each friends last message
+      puts "#{ last_message }"
+      puts "-------------------------------------------" # separator
+    end
+  end
 
   def run
     puts "Welcome to Mradi's Twitter Client!"
@@ -57,13 +70,14 @@ class MicroBlogger
       when 't' then tweet parts[1..-1].join(' ')
       when 'dm' then dm(parts[1], parts[2..-1].join(' '))
       when 'spam' then spam_my_followers parts[1..-1].join(' ')
+      when 'elt' then everyones_last_tweet
       else
         puts "Sorry, I don't know how to deal with (#{ command })"
       end
     end
   end
 end
-
+#
 blogger = MicroBlogger.new
-blogger.followers_list
+# blogger.followers_list
 blogger.run
